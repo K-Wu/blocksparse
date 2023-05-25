@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -66,7 +66,7 @@ REGISTER_OP("LayerNorm")
       }
       ctx->set_output(3, ctx->UnknownShape());
       ctx->set_output(4, ctx->UnknownShape());
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Layer norm applied to blocks full layer
@@ -205,7 +205,7 @@ REGISTER_OP("LayerNormGrad")
       ctx->set_output(2, ctx->input(3));
       ctx->set_output(3, ctx->UnknownShape());
       ctx->set_output(4, ctx->UnknownShape());
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Gradients of layer norm applied to full layer
@@ -357,7 +357,7 @@ REGISTER_OP("GatherScatter")
             shape.push_back(i == 0 ? ctx->MakeDim(K) : ctx->Dim(x, i));
         ctx->set_output(0, ctx->MakeShape(shape));
       }
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Take a sparse feature slice out of a tensor
@@ -483,7 +483,7 @@ REGISTER_OP("ScatterMulGrad")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(1));
       ctx->set_output(1, ctx->input(2));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Grad of SparseMul

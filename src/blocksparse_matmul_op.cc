@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 
 using namespace tensorflow;
 
@@ -218,7 +218,7 @@ public:
 
         if (cudaSuccess != res)
             return errors::Internal(cudaGetErrorString(res));
-        return Status::OK();
+        return OkStatus();
     }
     Status Compute_Updat(OpKernelContext* ctx)
     {
@@ -307,7 +307,7 @@ public:
 
         if (cudaSuccess != res)
             return errors::Internal(cudaGetErrorString(res));
-        return Status::OK();
+        return OkStatus();
     }
     bsmm_params params_;
     int   axis_, bench_, repeat_, SMs_, major_, grid_n_;
@@ -337,7 +337,7 @@ Status XpropShape(InferenceContext* ctx)
     else
         ctx->set_output(0, ctx->UnknownShape());
     ctx->set_output(1, ctx->UnknownShape());
-    return Status::OK();
+    return OkStatus();
 }
 Status UpdatShape(InferenceContext* ctx)
 {
@@ -350,7 +350,7 @@ Status UpdatShape(InferenceContext* ctx)
     // (blocks, block_size, block_size)
     DimensionHandle bsize_dim = ctx->MakeDim(bsize);
     ctx->set_output(0, ctx->MakeShape({ ctx->MakeDim(blocks), bsize_dim, bsize_dim }));
-    return Status::OK();
+    return OkStatus();
 }
 
 REGISTER_OP("BlocksparseMatmul")
@@ -499,7 +499,7 @@ REGISTER_OP("BlocksparseMatmulDG")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(0));
       ctx->set_output(1, ctx->input(2));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Blocksparse Gate Grad
@@ -633,7 +633,7 @@ Status ReducedDWShape(InferenceContext* ctx)
         ctx->set_output(1, ctx->UnknownShape());
         ctx->set_output(2, ctx->UnknownShape());
     }
-    return Status::OK();
+    return OkStatus();
 }
 
 REGISTER_OP("BlocksparseReducedDW")

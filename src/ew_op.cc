@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -18,7 +18,7 @@ using perftools::gputools::cuda::CUDAStream;
 
 Status UnchangedShape(shape_inference::InferenceContext* ctx) {
   ctx->set_output(0, ctx->input(0));
-  return Status::OK();
+  return OkStatus();
 }
 
 template <typename T, typename V> bool EW_Forward(CUstream stream, T* z, const T* x, const T* y, const float* b, float alpha, int size, int N, int op);
@@ -170,7 +170,7 @@ REGISTER_OP("EwDxdyDzxy")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(1));
       ctx->set_output(1, ctx->input(2));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 binary elementwise grad op
@@ -320,7 +320,7 @@ REGISTER_OP("EwDbDzb")
     .Attr("op: int")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(1));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 unary elementwise grad op
@@ -373,7 +373,7 @@ REGISTER_OP("EwDxdgDzxg")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(1));
       ctx->set_output(1, ctx->input(2));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 unary elementwise grad op
@@ -551,7 +551,7 @@ REGISTER_OP("GenDropoutMask")
         else
           ctx->set_output(0, ctx->UnknownShape());
       }
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 GenDropoutMask
@@ -829,7 +829,7 @@ REGISTER_OP("BiasReluGrad")
       ctx->set_output(0, ctx->input(0));
       ctx->set_output(1, ctx->input(2));
       ctx->set_output(2, ctx->UnknownShape());
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 bias op grad with fused relu for NHWC or NC layouts
@@ -924,7 +924,7 @@ REGISTER_OP("BiasGrad")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(1));
       ctx->set_output(1, ctx->UnknownShape());
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 bias op grad (without fused relu) for NHWC or NC layouts
@@ -1031,7 +1031,7 @@ REGISTER_OP("FancyGather")
       else
         ctx->set_output(0, ctx->UnknownShape());
 
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Fancy Gather.
@@ -1111,7 +1111,7 @@ REGISTER_OP("FancyGatherGrad")
       else
         ctx->set_output(0, ctx->UnknownShape());
 
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Fancy Gather.
@@ -1209,7 +1209,7 @@ REGISTER_OP("ReduceMax")
         ctx->set_output(0, ctx->UnknownShape());
         ctx->set_output(1, ctx->UnknownShape());
       }
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Reduce Max over a single column.
@@ -1312,7 +1312,7 @@ REGISTER_OP("ReduceMaxGrad")
       else
         ctx->set_output(0, ctx->UnknownShape());
 
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Reduce Max over a single column (gradient).
@@ -1395,7 +1395,7 @@ REGISTER_OP("ConcreteGate")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(0));
       ctx->set_output(1, ctx->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 ConcreteGate

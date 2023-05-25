@@ -27,7 +27,7 @@ Status GetKernel(std::string& kernel_name, CUfunction* kernel)
 {
   // Only need to get kernel once.
   if (*kernel)
-    return Status::OK();
+    return OkStatus();
 
   CUcontext context;
   CUDA_CHECK( cuCtxGetCurrent(&context) );
@@ -80,7 +80,7 @@ Status GetKernel(std::string& kernel_name, CUfunction* kernel)
     //printf("insert: %s\n", kernel_name.c_str());
 
   }
-  return Status::OK();
+  return OkStatus();
 }
 
 

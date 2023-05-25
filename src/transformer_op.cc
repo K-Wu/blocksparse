@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -49,7 +49,7 @@ REGISTER_OP("Topk")
         ctx->set_output(0, ctx->UnknownShape());
         ctx->set_output(1, ctx->UnknownShape());
       }
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Finds values and indices of the k largest entries for the last dimension.
@@ -376,7 +376,7 @@ REGISTER_OP("Transpose2D")
       ShapeHandle x;
       TF_RETURN_IF_ERROR(ctx->WithRank(ctx->input(0), 2, &x));
       ctx->set_output(0, ctx->MakeShape({ ctx->Dim(x,1), ctx->Dim(x,0) }));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Simple/fast 2D Transpose
@@ -418,7 +418,7 @@ REGISTER_OP("Transpose0213")
       ShapeHandle x;
       TF_RETURN_IF_ERROR(ctx->WithRank(ctx->input(0), 4, &x));
       ctx->set_output(0, ctx->MakeShape({ ctx->Dim(x,0), ctx->Dim(x,2), ctx->Dim(x,1), ctx->Dim(x,3) }));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Transpose op commonly used in transformer models (0,2,1,3).
@@ -488,7 +488,7 @@ REGISTER_OP("SoftmaxCrossEntropy")
         ctx->set_output(1, ctx->UnknownShape());
       }
 
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 SoftmaxCrossEntropy

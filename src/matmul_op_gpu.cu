@@ -259,10 +259,10 @@ __global__ void __launch_bounds__(256) hmma_gemm_64x64x32_TN_vec8(float* U, cons
                 *(uint2*)&fragK[i].x[j*4] = *(uint2*)&hShare[readKs + i*16 + j*4*80];
             }
 
-        mma_sync(fragU[0][0], fragC[0], fragK[0], fragU[0][0], false);
-        mma_sync(fragU[1][0], fragC[1], fragK[0], fragU[1][0], false);
-        mma_sync(fragU[1][1], fragC[1], fragK[1], fragU[1][1], false);
-        mma_sync(fragU[0][1], fragC[0], fragK[1], fragU[0][1], false);
+        mma_sync(fragU[0][0], fragC[0], fragK[0], fragU[0][0]);
+        mma_sync(fragU[1][0], fragC[1], fragK[0], fragU[1][0]);
+        mma_sync(fragU[1][1], fragC[1], fragK[1], fragU[1][1]);
+        mma_sync(fragU[0][1], fragC[0], fragK[1], fragU[0][1]);
 
     } while (n < N);
 

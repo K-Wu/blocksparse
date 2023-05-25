@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -47,7 +47,7 @@ REGISTER_OP("Adafactor2d")
       c->set_output(2, c->input(2));
       c->set_output(3, c->input(3));
       c->set_output(4, c->MakeShape({ c->MakeDim(2) }) );
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Apply the Adafactor optimizer on 2d tensors.
@@ -143,7 +143,7 @@ REGISTER_OP("Adafactor1d")
       c->set_output(1, c->input(1));
       c->set_output(2, c->input(2));
       c->set_output(3, c->MakeShape({ c->MakeDim(2) }) );
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Apply the Adafactor optimizer on 1d tensors.
@@ -248,7 +248,7 @@ REGISTER_OP("BlocksparseAdam")
       c->set_output(0, c->input(0));
       c->set_output(1, c->input(1));
       c->set_output(2, c->input(2));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Apply the Blocksparse Adam optimizer
@@ -345,7 +345,7 @@ REGISTER_OP("Adam")
       c->set_output(0, c->input(1));
       c->set_output(1, c->input(2));
       c->set_output(2, c->input(3));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Apply the Adam optimizer
@@ -453,7 +453,7 @@ REGISTER_OP("Ema")
     .Attr("n_gate: int >= 0")
     .SetShapeFn([](InferenceContext* c) {
       c->set_output(0, c->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Apply Exponential Moving Average
@@ -520,7 +520,7 @@ REGISTER_OP("BlocksparseL2Decay")
     .Attr("n_gate: int >= 0")
     .SetShapeFn([](InferenceContext* c) {
       c->set_output(0, c->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Apply L2 regularization to blocksparse weights
@@ -576,7 +576,7 @@ REGISTER_OP("BlocksparseNorm")
       else
         ctx->set_output(0, ctx->UnknownShape());
 
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 BlocksparseNorm
@@ -626,7 +626,7 @@ REGISTER_OP("BlocksparsePrune")
     .Attr("frequency: int = 1")
     .SetShapeFn([](InferenceContext* c) {
       c->set_output(0, c->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 BlocksparsePrune
@@ -692,7 +692,7 @@ REGISTER_OP("BlocksparseThresholdPrune")
     .Attr("frequency: int = 1")
     .SetShapeFn([](InferenceContext* c) {
       c->set_output(0, c->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Set gate to zero for each block where maxnorm falls below threshold
@@ -762,7 +762,7 @@ REGISTER_OP("ClipGlobalNorm")
       ctx->set_output(0, ctx->MakeShape({}));
       ctx->set_output(1, ctx->MakeShape({}));
       ctx->set_output(2, ctx->UnknownShape());
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 ReduceSumSquared, scalar float output.  Used in computing norms.
@@ -850,7 +850,7 @@ REGISTER_OP("Recompute")
       int n_out; TF_RETURN_IF_ERROR(ctx->GetAttr("n_out", &n_out));
       for (int i = 0; i < n_out; i++)
         ctx->set_output(i, ctx->input(i));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Recompute placeholder and passthrough node.

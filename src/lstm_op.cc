@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -39,7 +39,7 @@ REGISTER_OP("LSTMGates")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(0));
       ctx->set_output(1, ctx->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
   i, u, f, o = split(z, 4, 1)
@@ -103,7 +103,7 @@ REGISTER_OP("LSTMGates4")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(0));
       ctx->set_output(1, ctx->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
   i = sigmoid(i)
@@ -169,7 +169,7 @@ REGISTER_OP("LSTMGatesGrad")
     .SetShapeFn([](InferenceContext* ctx) {
       ctx->set_output(0, ctx->input(0));
       ctx->set_output(1, ctx->input(1));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
   di = ec * tan_u * sig_grad(sig_i)
@@ -245,7 +245,7 @@ REGISTER_OP("LSTMGates4Grad")
       ctx->set_output(2, ctx->input(0));
       ctx->set_output(3, ctx->input(0));
       ctx->set_output(4, ctx->input(0));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
   di = ec * tan_u * sig_grad(sig_i)
@@ -330,7 +330,7 @@ REGISTER_OP("Split4")
       ctx->set_output(1, z);
       ctx->set_output(2, z);
       ctx->set_output(3, z);
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 split 4 for lstm type nets
@@ -388,7 +388,7 @@ REGISTER_OP("Concat4")
       TF_RETURN_IF_ERROR(ctx->Multiply( ctx->Dim(dz,1), 4, &K));
       ShapeHandle dx = ctx->MakeShape({ N, K });
       ctx->set_output(0, dx);
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 split 4 grad for lstm type nets

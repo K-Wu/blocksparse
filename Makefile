@@ -32,11 +32,11 @@ MPI_HOME?=/usr/lib/mpich
 MPI_INC?=$(MPI_HOME)/include
 MPI_LIB?=$(MPI_HOME)/lib
 
-TF_INC=$(shell python -c 'from os.path import dirname; import tensorflow as tf; print(dirname(dirname(tf.sysconfig.get_include())))')
-TF_LIB=$(shell python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
-TF_ABI=$(shell python -c 'import tensorflow as tf; print(tf.__cxx11_abi_flag__ if "__cxx11_abi_flag__" in tf.__dict__ else 0)')
+TF_INC=$(shell python -c 'from os.path import dirname; import tensorflow as tf; print(dirname(dirname(tf.sysconfig.get_include())))' 2>/dev/null)
+TF_LIB=$(shell python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())' 2>/dev/null)
+TF_ABI=$(shell python -c 'import tensorflow as tf; print(tf.__cxx11_abi_flag__ if "__cxx11_abi_flag__" in tf.__dict__ else 0)' 2>/dev/null)
 
-CCFLAGS=-std=c++11 -O3 -fPIC -DGOOGLE_CUDA=1 -D_GLIBCXX_USE_CXX11_ABI=$(TF_ABI) \
+CCFLAGS=-std=c++17 -O3 -fPIC -DGOOGLE_CUDA=1 -D_GLIBCXX_USE_CXX11_ABI=$(TF_ABI) \
 	-I$(TARGET) \
 	-I$(NV_INC) \
 	-I$(TF_INC)/tensorflow/include \

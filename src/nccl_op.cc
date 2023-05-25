@@ -13,7 +13,7 @@
 #include "tensorflow/core/framework/shape_inference.h"
 #include "tensorflow/core/framework/op_kernel.h"
 #include "tensorflow/core/framework/node_def.pb.h"
-#include "tensorflow/stream_executor/stream.h"
+#include "tensorflow/compiler/xla/stream_executor/stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -138,7 +138,7 @@ public:
             (void*)data_out->tensor_data().data(),
             (size_t)data_in->NumElements(),
             data_in->dtype() == DT_HALF ? ncclHalf : ncclFloat,
-            op_num, op_event, std::move(done_callback), Status::OK()
+            op_num, op_event, std::move(done_callback), OkStatus()
         }));
         cv_comm.notify_one();
     }
@@ -412,7 +412,7 @@ REGISTER_OP("AllreduceNccl")
     .Attr("debug_str: string = ''")
     .SetShapeFn([](shape_inference::InferenceContext* ctx) {
         ctx->set_output(0, ctx->input(0));
-        return Status::OK();
+        return OkStatus();
     });
 
 class AllreduceNcclOp : public AsyncOpKernel {
@@ -548,7 +548,7 @@ REGISTER_OP("IdentitySynchronize")
         int n_out; TF_RETURN_IF_ERROR(ctx->GetAttr("n_out", &n_out));
         for (int i = 0; i < n_out; i++)
             ctx->set_output(i, ctx->input(i));
-        return Status::OK();
+        return OkStatus();
     })
     .Doc(R"doc(
 Sync op to facilite nccl all-reduce calls.

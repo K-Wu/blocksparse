@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 using namespace tensorflow;
@@ -44,7 +44,7 @@ Status nt_shape(InferenceContext* ctx)
     else
       ctx->set_output(0, ctx->UnknownShape());
 
-    return Status::OK();
+    return OkStatus();
 }
 Status xn_shape(InferenceContext* ctx)
 {
@@ -64,7 +64,7 @@ Status xn_shape(InferenceContext* ctx)
     }
     else
       ctx->set_output(0, ctx->UnknownShape());
-    return Status::OK();
+    return OkStatus();
 }
 
 REGISTER_OP("BlocksparseTransformerNT")

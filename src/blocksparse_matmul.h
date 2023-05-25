@@ -66,7 +66,7 @@ public:
 
         if (cudaSuccess != res)
             return errors::Internal(cudaGetErrorString(res));
-        return Status::OK();
+        return OkStatus();
     }
 };
 template <CTYPE3(TA,TB,TC)>
@@ -92,7 +92,7 @@ public:
 
         if (cudaSuccess != res)
             return errors::Internal(cudaGetErrorString(res));
-        return Status::OK();
+        return OkStatus();
     }
 };
 template <CTYPE3(TA,TB,TC)>
@@ -118,7 +118,7 @@ public:
 
         if (cudaSuccess != res)
             return errors::Internal(cudaGetErrorString(res));
-        return Status::OK();
+        return OkStatus();
     }
 };
 
@@ -169,7 +169,7 @@ public:
             cuGetErrorString(res, &errstr);
             return errors::Internal(errstr);
         }
-        return Status::OK();
+        return OkStatus();
     }
     virtual Status Compute(const TA* A, const TB* B, TC* C) =0;
 
@@ -230,7 +230,7 @@ public:
             cuGetErrorString(res, &errstr);
             return errors::Internal(errstr);
         }
-        return Status::OK();
+        return OkStatus();
     }
 };
 
@@ -264,10 +264,10 @@ public:
         bsmm_params* params = this->params_;
 
         // cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1, params->K, params->C, 1.0f, A, params->C, B, params->K, 0.0f, C, params->K);
-        // return Status::OK();
+        // return OkStatus();
 
         // cblas_sgemv(CblasRowMajor, CblasTrans, params->C, params->K, 1.0f, B, params->K, A, 1, 0.0f, C, 1);
-        // return Status::OK();
+        // return OkStatus();
 
         // Just support gemv for the moment... easy to switch this to gemm later.
         if (params->N > 1)
@@ -302,7 +302,7 @@ public:
                 beta = 1.0f;
             }
         }
-        return Status::OK();
+        return OkStatus();
     }
 };
 
@@ -424,6 +424,6 @@ public:
 //             }
 //             segcount++;
 //         }
-//         return Status::OK();
+//         return OkStatus();
 //     }
 // };

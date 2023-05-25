@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 
@@ -27,7 +27,7 @@ Status L2NormalizeShape(InferenceContext* ctx)
   ctx->set_output(0, ctx->input(0));
   ctx->set_output(1, ctx->Vector(K));
 
-  return Status::OK();
+  return OkStatus();
 }
 
 REGISTER_OP("L2NormalizeKCTRS")
@@ -308,7 +308,7 @@ template <typename TY, typename TX> bool L2NormalizeGradCK   (CUstream stream, T
 Status L2NormalizeGradShape(InferenceContext* ctx)
 {
   ctx->set_output(0, ctx->input(1));
-  return Status::OK();
+  return OkStatus();
 }
 
 REGISTER_OP("L2NormalizeGradKCTRS")
@@ -446,7 +446,7 @@ Status L2NormalizeGainGradShape(InferenceContext* ctx)
 {
   ctx->set_output(0, ctx->input(1));
   ctx->set_output(1, ctx->input(2));
-  return Status::OK();
+  return OkStatus();
 }
 
 REGISTER_OP("L2NormalizeGainGradKCTRS")

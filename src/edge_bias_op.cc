@@ -5,7 +5,7 @@
 #include "tensorflow/core/framework/types.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/platform/stream_executor.h"
-#include "tensorflow/stream_executor/cuda/cuda_stream.h"
+#include "tensorflow/compiler/xla/stream_executor/cuda/cuda_stream.h"
 #include "gpu_types.h"
 
 
@@ -144,7 +144,7 @@ REGISTER_OP("EdgeBiasGrad")
       ctx->set_output(0, ctx->input(1));
       ctx->set_output(1, ctx->input(2));
       ctx->set_output(2, ctx->input(2));
-      return Status::OK();
+      return OkStatus();
     })
     .Doc(R"doc(
 Edge bias grad for Convolution.
